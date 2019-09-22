@@ -27,27 +27,35 @@ Using Data fron the Human Freedom Index and the Happiness Index, I attempted to 
 ### Libraries Used:
 
 1. #### Basic Libraries:
-     * pandas
-     * numpy
-     * matplotlib
-2. #### Feature selection/univariate selection
-     * SelectKBest
-     * chi2
-     * f_regression
-3. #### Feature selection/correlation matrix
-     * seaborn
-4. #### Feature importance using XG Boost
-     * numpy: loadtxt
-     * xgboost: XGBClassifier
-     * xgboost: plot_importance
-5. #### Linear regression model + scoring with SKLearn: 
-     * sklearn.model_selection: train_test_split
-     * sklearn.linear_model: LinearRegression
-     * sklearn.metrics: mean_squared_error, r2_score
-6. #### For regression with Keras and TensorFlow:
-     * keras: backend as K
-     * from tensorflow.keras.models: Sequential 
-     * tensorflow.keras.layers: Dense
+    ```
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    ```
+2. #### Feature selection (univariate selection and correlation matrix)
+    ```
+    from sklearn.feature_selection import SelectKBest
+    from sklearn.feature_selection import chi2, f_regression
+    import seaborn as sns
+    ```
+3. #### Feature importance using XG Boost
+    ```
+    from numpy import loadtxt
+    from xgboost import XGBClassifier
+    from xgboost import plot_importance
+    ```
+4. #### Linear regression model + scoring with SKLearn: 
+    ```
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import  LinearRegression
+    from sklearn.metrics import mean_squared_error, r2_score
+    ```
+5. #### For regression with Keras and TensorFlow:
+    ```
+    from keras import backend as K
+    from tensorflow.keras.models import Sequential 
+    from tensorflow.keras.layers import Dense
+    ```
 
 ### Findings
 
