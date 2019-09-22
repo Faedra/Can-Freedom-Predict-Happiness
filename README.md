@@ -30,25 +30,20 @@ Using Data fron the Human Freedom Index and the Happiness Index, I attempted to 
      * pandas
      * numpy
      * matplotlib
-
 2. #### Feature selection/univariate selection
      * SelectKBest
      * chi2
      * f_regression
-
 3. #### Feature selection/correlation matrix
      * seaborn
-
 4. #### Feature importance using XG Boost
      * numpy: loadtxt
      * xgboost: XGBClassifier
      * xgboost: plot_importance
-
 5. #### Linear regression model + scoring with SKLearn: 
      * sklearn.model_selection: train_test_split
      * sklearn.linear_model: LinearRegression
      * sklearn.metrics: mean_squared_error, r2_score
-
 6. #### For regression with Keras and TensorFlow:
      * keras: backend as K
      * from tensorflow.keras.models: Sequential 
