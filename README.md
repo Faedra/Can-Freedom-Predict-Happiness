@@ -1,16 +1,68 @@
-# Can Freedom Predict Happiness? | A Machine Learning Exploration
+## Can Freedom Predict Happiness? | A Machine Learning Exploration
 
-## Background/Summary of Problem I'm trying to solve
+### Project Background and Summary
 
-Summary of the problem. Lorem Ipsum.
+Using Data fron the Human Freedom Index and the Happiness Index, I attempted to answer the question whether freedom measures correlate with happiness measures in a way that can be predicted, or at least provide actionable information. An exploration of machine learning techniques, building upon my earlier analysis comparing/contrasting these same datasets, to also answer whether these techniques will return similar or different insights from the original analysis. 
 
-## Your Task
+### Project Steps:
 
-### Level 1: Basic Visualization
+      * Data Prep
+      * Feature Selection
+      * Correlation + Residual Plots
+   * Regression + Scoring Section 1: SKLearn and Train/Test/Split
+   * Regression + Scoring Section 2: Keras and TensorFlow
+   * Plotting value changes using matplotlib: https://keras.io/visualization/
+   * Clustering and Forecasting in Tableau: https://tabsoft.co/2Zopdfd
+   
+### Data Sources:
 
-![2-BasicMap](Images/2-BasicMap.png)
+#### HAPPINESS DATASETS:
+World Happiness Report (2019) https://worldhappiness.report/ed/2019/
 
-Your first task is to visualize an earthquake data set.
+World Happiness Report data on Kaggle Includes happiness scores and rankings from the Gallup World Poll https://www.kaggle.com/unsdsn/world-happiness
+
+#### TWO MERGED DATASETS on HUMAN FREEDOM:
+Human Freedom Index from the Cato Institute Includes the basic freedom scores and rankings https://www.cato.org/human-freedom-index-new
+
+Human Freedom Index exploration on Kaggle Breaks Cato data into smaller subsets for more detailed study: https://www.kaggle.com/gsutters/the-human-freedom-index#hfi_cc_2018.csv
+
+### Libraries Used:
+
+#### Basic Libraries:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+#### For feature selection/univariate selection
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2, f_regression
+
+#### For feature selection/feature importance
+from sklearn.ensemble import ExtraTreesClassifier
+
+#### For feature selection/correlation matrix
+import seaborn as sns
+
+#### For feature importance using XG Boost
+from numpy import loadtxt
+from xgboost import XGBClassifier
+from xgboost import plot_importance
+
+#### For linear regression model + scoring with SKLearn: 
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import  LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+#### For regression with Keras and TensorFlow:
+from keras import backend as K
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Dense
+
+### Findings
+
+Display the same output as a dataframe:¶
+Interestingly, this feature select method shows that the majority of relevant features relate to economic freedoms (7/10) rather than personal freedoms (3/10), which is the same conclusion we reached in Project 1 in the original exploration of this data.
+
 
 1. **Get your data set**
 
@@ -66,68 +118,10 @@ Your final product will be assessed on the following metrics:
 
 Data Boot Camp (C) 2018. All Rights Reserved.
 
-Can Freedom Predict Happiness?
-Data Analysis and Machine Learning Exploration
-Using Data fron the Human Freedom Index and the Happiness Index, I attempted to answer the question whether freedom measures correlate with happiness measures in a way that can be predicted, or at least provide actionable information.
 
-PROJECT STEPS:
-• Data Prep
-• Feature Selection
-• Correlation + Residual Plots
-• Regression + Scoring: SKLearn and Train/Test/Split
-• Regression + Scoring: Keras and TensorFlow
-• Plot the value changes using matplotlib: https://keras.io/visualization/
-• Clustering and Forecasting in Tableau
-DATA SOURCES:
-HAPPINESS DATASET:
-World Happiness Report (2019) https://worldhappiness.report/ed/2019/
 
-World Happiness Report data on Kaggle Includes happiness scores and rankings from the Gallup World Poll https://www.kaggle.com/unsdsn/world-happiness
 
-AND TWO MERGED DATASETS on HUMAN FREEDOM:
-Human Freedom Index from the Cato Institute Includes the basic freedom scores and rankings https://www.cato.org/human-freedom-index-new
 
-Human Freedom Index exploration on Kaggle Breaks Cato data into smaller subsets for more detailed study: https://www.kaggle.com/gsutters/the-human-freedom-index#hfi_cc_2018.csv
 
-LIBRARIES USED:
 
-import pandas as pd
-import numpy as np
 
-import matplotlib.pyplot as plt
-
-# For feature selection: univariate selection:
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import chi2, f_regression
-
-# For feature selection: feature importance
-from sklearn.ensemble import ExtraTreesClassifier
-
-# For feature selection: correlation matrix
-import seaborn as sns
-
-# For feature importance using XG Boost
-from numpy import loadtxt
-from xgboost import XGBClassifier
-from xgboost import plot_importance
-
-# For linear regression model + scoring with SKLearn: 
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import  LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
-
-# For scaling data (think I didn't use Label Encoder or to_categorical?)
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from tensorflow.keras.utils import to_categorical
-
-# For regression with Keras and TensorFlow:
-from keras import backend as K
-# model that contains all our forward and back layering 
-from tensorflow.keras.models import Sequential 
-# model that defines nodes
-from tensorflow.keras.layers import Dense
-
-### Findings
-
-Display the same output as a dataframe:¶
-Interestingly, this feature select method shows that the majority of relevant features relate to economic freedoms (7/10) rather than personal freedoms (3/10), which is the same conclusion we reached in Project 1 in the original exploration of this data.
