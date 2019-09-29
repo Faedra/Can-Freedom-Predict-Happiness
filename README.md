@@ -2,7 +2,9 @@
 
 ### Project Description
 
-Using Data fron the Human Freedom Index and the Happiness Index, I attempted to answer the question: do freedom measures correlate with happiness measures in a way that can be predicted, or at least provide actionable information? This is an exploration of machine learning techniques, which also builds upon my earlier analysis comparing/contrasting these same datasets to determine whether these techniques will return similar or different insights from the original analysis. 
+Using Data fron the Human Freedom Index and the World Happiness Report, I attempted to answer the following question: do freedom measures correlate with happiness measures in a way that can be predicted, or at least provide actionable information? The question is geared toward studying elements of increased well-being in society that might be achieved through analysis and policy. 
+
+This project is a an exploration of machine learning techniques, which builds upon my earlier analysis comparing/contrasting these same datasets, to determine whether these techniques will return similar or different insights from the original analysis. The repository for the initial analsis can be found at https://github.com/Faedra/Freedom-and-Happiness-Analysis.
 
 ### Data Sources:
 
@@ -14,7 +16,7 @@ Using Data fron the Human Freedom Index and the Happiness Index, I attempted to 
      * [Human Freedom Index from the Cato Institute](https://www.cato.org/human-freedom-index-new) (includes the basic freedom scores and rankings) 
      * [Human Freedom Index exploration on Kaggle](https://www.kaggle.com/gsutters/the-human-freedom-index#hfi_cc_2018.csv) (breaks Cato data into smaller subsets for more detailed study)
      
-### Basic Libraries Used (additional libraries in Project Steps):
+### Basic Libraries Used (additional libraries listed below in project steps):
     ```
     import pandas as pd
     import numpy as np
@@ -32,14 +34,15 @@ Using Data fron the Human Freedom Index and the Happiness Index, I attempted to 
    * Clustering and Forecasting in Tableau: https://help.tableau.com/current/pro/desktop/en-us/clustering.htm
    
 ### Data Prep
-I imported and merged my datasets, replaced NAN values with column mean values, and saved my new dataframe to csv for later use.
+I imported and merged my datasets, replaced NAN values with column mean values, and saved my new dataframe to csv format for later use.
 
 ![](images/merged_dataset_ex.png)
 
-### Feature Selection
+### Feature Selection: 
+#### This is an important step wherein I determine which features in my data will be best to study further, or which might be expected to give me the most significant results for predictive modeling. I tried 3 different feature selection methods to compare/contrast results: Univariate Selection, Heatmap Correlation Matrix, and Feature Importance using XG Boost.
 
 #### Libraries Used:
-##### Univariate election and heatmap correlation matrix:
+##### Univariate selection and heatmap correlation matrix:
     ```
     from sklearn.feature_selection import SelectKBest
     from sklearn.feature_selection import chi2, f_regression
@@ -60,16 +63,19 @@ The SKlearn library provides the SelectKBest class that can be used with a suite
 
 2. #### Heatmap Correlation Matrix using the Seaborn Library
 
-This correlation reveals which features are most related to each other and/or to the target variable, "Happiness score". The graph shows both positive (green) and negative (red) correlations.
+This correlation reveals which features are most related to each other and/or to the target variable, "Happiness score". The graph shows both positive (green) and negative (red) correlations; the darker the color, the stronger the correlation.
 
 ![](images/heatmap_correlation.png)
 
 3. #### Feature importance calculated by XGBoost (Gradient booster) to perform feature selection. 
 
-(See: https://machinelearningmastery.com/feature-importance-and-feature-selection-with-xgboost-in-python/) Here, perhaps surprisingly, all ten most important reatures are "ef" (economic freedoms) with no "pf" (personal freedoms) in the list.
+I chose this less-common feature important test after being inspired by the article at: https://machinelearningmastery.com/feature-importance-and-feature-selection-with-xgboost-in-python/. In this test, perhaps surprisingly, all ten most important reatures are "ef" (economic freedoms) with no "pf" (personal freedoms) in the list.
 ![](images/feature_selection_2.png)
 
-### Linear Regression Modeling and Scoring Round 1: Using SKLearn and Train/Test/Split 
+### Regression Modeling and Training/Testing the Data: 
+#### This is the meat of this exploration, wherein I model my data and then score my model to see whether it can be trusted/used for further analysis.
+
+### 1. Linear Regression Modeling and Scoring Round 1: Using SKLearn and Train/Test/Split 
 
 #### Libraries Used:
     ```
@@ -78,12 +84,11 @@ This correlation reveals which features are most related to each other and/or to
     from sklearn.metrics import mean_squared_error, r2_score
     ```
 
-1. First, I imported SKLearn models and reshaped values to fit X/y model. I used train_test_split to split data into training and testing sets. I plotted the residuals for the training and testing data, to clarify: is linear regression appropriate for this data? (If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.)
+1. First, I imported SKLearn models and reshaped values to fit X/y model. I used train_test_split to split data into training and testing sets. I plotted the residuals for the training and testing data, to clarify: is linear regression appropriate for this data? (If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate. Answer based on the graph below: YES -- LINEAR REGRESSION IS APPROPRIATE!)
+
 ![](images/regression_analysis.png)
 
-ANSWER: YES -- LINEAR REGRESSION IS APPROPRIATE!
-
-2. I fit the model to the training data and calculated the scores:
+2. I fit the model to the training data and calculated the R2 scores:
     ```
     Training Score: 0.4641304308674661
     Testing Score: 0.46980650097659515
@@ -95,7 +100,15 @@ ANSWER: YES -- LINEAR REGRESSION IS APPROPRIATE!
     ````
 (ANSWER: YES, SCALING IMPROVED THE SCORES!)
 
-### Linear Regression Modeling and Scoring Round 2: Regression with Keras and TensorFlow
+4. Side note: MSE AND R SQUARED:
+
+https://data.library.virginia.edu/is-r-squared-useless/ An interesting note I found: R-squared can be arbitrarily close to 1 when the model is totally wrong. The point being made is that R-squared does not measure goodness of fit; R-squared can be anywhere between 0 and 1 just by changing the range of X. We're better off using Mean Square Error (MSE) as a measure of prediction error. I did run MSE against R squared to see where my data would land, and found the results are indeed quite different; this invites further study:
+
+#### mean squared error vs. R squared:
+MSE against the test data set is 0.6499784881232792
+R squared against the test data set is 0.4472072190951729
+
+### 2. Linear Regression Modeling and Scoring Round 2: Regression with Keras and TensorFlow
 Article on how to do a regression problem in Keras: https://machinelearningmastery.com/regression-tutorial-keras-deep-learning-library-python/
 START WITH IMPORTING MODELS AND DATA (using csv saved earlier for a "fresh start")
 
@@ -110,12 +123,16 @@ START WITH IMPORTING MODELS AND DATA (using csv saved earlier for a "fresh start
 
 I imported my merged datasets into Tableau, to experiment with the clustering function available in that application. I built scatterplots based on highest and lowest-scoring features from my heatmap matrix above, to test their accuracy. 
 
+I also ran some simple forecasts, and finally, built a clustering workbook combining the world's countries into clusters based on their combined freedom and happiness data. The Tableau workbooks can be found at https://tabsoft.co/2Zopdfd.
+
+Correlation plots:
+
 ![](images/tableau_correlation.png)
 
-I also ran some simple forecasts, and finally, built a clustering workbook combining the world's countries into clusters based on their combined freedom and happiness data. The Tableau workbooks can be found at https://tabsoft.co/2Zopdfd
+Tableau clustering function (country correlations represented by color):
 
 ![](images/tableau_clusters.png)
 
 ### Findings
 
-Feature select methods in this data exploration reveal that the majority of top-10 relevant features relate to economic freedoms (7/10) rather than personal freedoms (3/10), which is the same conclusion we reached in Project 1 in the original exploration of this data. Additionally, I found that scaling my data increased my data modeling scores. Finally, this project in general was interesting to me, in that it utilized data science and machine learning techniques to explore data that some might consider subjective or not applicable to quantitative studies. While I do think the subjective nature of the data should be taken into account, I also find it encouraging that data analysis methods can be used to at least suggest answers to pressing human problems that are not otherwise easily quantifiable.
+Feature select methods in this data exploration reveal that the majority of top-10 relevant features relate to economic freedoms (7/10) rather than personal freedoms (3/10), which is the same conclusion reached in the original exploration of this data @ https://github.com/Faedra/Freedom-and-Happiness-Analysis. Notably, different feature selection methods returned different results, suggesting the benefit of using several methods for cross-reference. Another aspect of this machine learning exploration I found interesting was that scaling my data significantly increased my data modeling scores; I saw firsthand the importance of scaling data, at minimum in the testing phase. Overall, this project in general was interesting to me, in that it utilized data science and machine learning techniques to explore data that some might consider subjective or not applicable to quantitative studies. While I do think the subjective nature of the data should be taken into account, I also find it encouraging that data analysis methods can be used to at least suggest answers to pressing human problems that are not otherwise easily quantifiable. 
