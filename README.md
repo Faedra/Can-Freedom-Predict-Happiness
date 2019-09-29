@@ -39,7 +39,7 @@ I imported and merged my datasets, replaced NAN values with column mean values, 
 ### Feature Selection
 
 #### Libraries Used:
-##### Univariate selection and correlation matrix:
+##### Univariate election and heatmap correlation matrix:
     ```
     from sklearn.feature_selection import SelectKBest
     from sklearn.feature_selection import chi2, f_regression
@@ -52,14 +52,21 @@ I imported and merged my datasets, replaced NAN values with column mean values, 
     from xgboost import plot_importance
     ```
 1. #### Univariate Selection: SelectKBest
-Finding Top 10 Best Features using SelectKBest class (selects those features that have the strongest relationship with the output variable, "Happiness Score")
-The SKlearn library provides the SelectKBest class that can be used with a suite of different statistical tests. The example below uses the chi-squared (chi²) test for to select 10 of the best features from the combined dataset, using "Happiness Score" as the y value.
+I selected my top 10 "best features" using SelectKBest class (selects those features that have the strongest relationship with the output variable, "Happiness Score"). This will help me know which features to focus on in future tests.
 
-![](images/feature_selection_1.png)
+The SKlearn library provides the SelectKBest class that can be used with a suite of different statistical tests. The example I ran here uses the chi-squared (chi²) test to select 10 of the best features from the combined dataset, using "Happiness Score" as the y value. Features are labeled as "ef" (economic freedoms) and "pf" (personal freedoms).
 
-2. #### Plot a Heatmap Correlation Matrix using the Seaborn Library
-Third type of feature selection: correlation reveals which features are most related to each other and/or to the target variable, "Happiness score". Shows both positive (green) and negative (red) correlations.
-3. #### Used feature importance calculated by XGBoost (Gradient booster) to perform feature selection. (See: https://machinelearningmastery.com/feature-importance-and-feature-selection-with-xgboost-in-python/)
+![](images/feature_selection.png)
+
+2. #### Heatmap Correlation Matrix using the Seaborn Library
+
+This correlation reveals which features are most related to each other and/or to the target variable, "Happiness score". The graph shows both positive (green) and negative (red) correlations.
+
+![](images/heatmap_correlation.png)
+
+3. #### Feature importance calculated by XGBoost (Gradient booster) to perform feature selection. 
+
+(See: https://machinelearningmastery.com/feature-importance-and-feature-selection-with-xgboost-in-python/) Here, perhaps surprisingly, all ten most important reatures are "ef" (economic freedoms) with no "pf" (personal freedoms) in the list.
 ![](images/feature_selection_2.png)
 
 ### Linear Regression Modeling and Scoring Round 1: Using SKLearn and Train/Test/Split 
@@ -71,18 +78,17 @@ Third type of feature selection: correlation reveals which features are most rel
     from sklearn.metrics import mean_squared_error, r2_score
     ```
 
-1. #### I imported SKLearn models and reshaped values to fit X/y model. I used train_test_split to split data into training and testing sets. I plotted the residuals for the training and testing data, to clarify: is linear regression appropriate for this data? (If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.)
+1. First, I imported SKLearn models and reshaped values to fit X/y model. I used train_test_split to split data into training and testing sets. I plotted the residuals for the training and testing data, to clarify: is linear regression appropriate for this data? (If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.)
 ![](images/regression_analysis.png)
 
 ANSWER: YES -- LINEAR REGRESSION IS APPROPRIATE!
 
-2. #### I fit the model to the training data and calculated the scores:
+2. I fit the model to the training data and calculated the scores:
     ```
     Training Score: 0.4641304308674661
     Testing Score: 0.46980650097659515
     ```
-3. #### I scaled the data:
-Scores on Linear Regression are OK...but could they improve if we scale the data?
+3. I scaled the data: (Scores on Linear Regression are OK...but could they improve if we scale the data?)
     ````
     Training Score (scaled y): 0.8098205729527982
     Testing Score (scaled y): 0.7823787917258888
@@ -99,7 +105,17 @@ START WITH IMPORTING MODELS AND DATA (using csv saved earlier for a "fresh start
     from tensorflow.keras.models import Sequential 
     from tensorflow.keras.layers import Dense
     ```
+    
+### Clustering and Forecasting in Tableau
+
+I imported my merged datasets into Tableau, to experiment with the clustering function available in that application. I built scatterplots based on highest and lowest-scoring features from my heatmap matrix above, to test their accuracy. 
+
+![](images/tableau_correlation.png)
+
+I also ran some simple forecasts, and finally, built a clustering workbook combining the world's countries into clusters based on their combined freedom and happiness data. The Tableau workbooks can be found at https://tabsoft.co/2Zopdfd
+
+![](images/tableau_clusters.png)
 
 ### Findings
 
-Interestingly, feature select methods show that the majority of top-10 relevant features relate to economic freedoms (7/10) rather than personal freedoms (3/10), which is the same conclusion we reached in Project 1 in the original exploration of this data. Additionally, 
+Feature select methods in this data exploration reveal that the majority of top-10 relevant features relate to economic freedoms (7/10) rather than personal freedoms (3/10), which is the same conclusion we reached in Project 1 in the original exploration of this data. Additionally, I found that scaling my data increased my data modeling scores. Finally, this project in general was interesting to me, in that it utilized data science and machine learning techniques to explore data that some might consider subjective or not applicable to quantitative studies. While I do think the subjective nature of the data should be taken into account, I also find it encouraging that data analysis methods can be used to at least suggest answers to pressing human problems that are not otherwise easily quantifiable.
